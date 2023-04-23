@@ -1,0 +1,6 @@
+[
+    {"url": "http://example.com", "status": "Legitimate"},
+    {"url": "http://phishing.com", "status": "Phishing"},
+    {"utl": "https://support-appleld.com.secureupdate.duilawyeryork.com/ap/89e6a3b4b063b8d/?cmd=_update&dispatch=89e6a3b4b063b8d1b&locale=_", "status":"Phishing"}
+  ]
+  
