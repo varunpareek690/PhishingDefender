@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify, Response
 from bs4 import BeautifulSoup
 import requests
 import sys
@@ -14,6 +14,7 @@ def scrape():
     soup = BeautifulSoup(page.content, 'html.parser')
     links_list = soup.find_all('a')
     
+    result = ''
     for link in links_list:
         if 'href' in link.attrs:
             web_links = str(link.attrs['href'])
@@ -25,6 +26,7 @@ def scrape():
                 z=df.loc[df['url'] == web_links]
                 d=z['status']
                 print(d)
+                result += web_links + ' ' + str(d) + '\n'
                 with open("output.txt","w")as f:
                     sys.stdout = f 
                     print(web_links,d,file=f)
@@ -34,6 +36,7 @@ def scrape():
                 z=df.loc[df['url'] == web_links]
                 d=z['status']
                 print(d)
+                result += web_links + ' ' + str(d) + '\n'
                 with open("output.txt","w")as f:
                     sys.stdout = f 
                     print(web_links,d,file=f)
@@ -43,7 +46,7 @@ def scrape():
 
 
 
-    return 'Scraped links printed to console'
+    return Response(result, mimetype='text/plain') # this is the result that will be sent back to the popup.js file. Mimetype is the type of file that is being sent back
     
 if __name__ == '__main__':
     app.run()
