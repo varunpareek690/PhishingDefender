@@ -17,7 +17,7 @@ def scrape():
     for link in links_list:
         if 'href' in link.attrs:
             web_links = str(link.attrs['href'])
-            df = pd.read_csv('phishing_dataset.csv')
+            df = pd.read_csv('FetchLink\phishing_dataset.csv')
             status1 = df.loc[df['url'] == web_links]['status']
             print(web_links)
             if web_links in df['url'].unique():
