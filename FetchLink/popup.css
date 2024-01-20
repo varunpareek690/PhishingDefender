@@ -93,12 +93,16 @@ footer {
   padding: 10px;
   text-align: center;
   background-color: black;
-  /* margin-top: 3px; */
+  
 }
 
 .logo-container img {
   width: 30px;
   height: 30px;
   margin: 0 10px;
+
+}
+
+.logo-container{
 
 }
