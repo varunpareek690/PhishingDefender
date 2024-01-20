@@ -31,5 +31,5 @@ def scrape():
             
             
 
-if __name__ == '__main__':
+if __name__ == '__m_':
     app.run(host='127.0.0.1', port=5000)
