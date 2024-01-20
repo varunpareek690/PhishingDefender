@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from bs4 import BeautifulSoup
 import requests
 import sys
@@ -14,36 +14,22 @@ def scrape():
     soup = BeautifulSoup(page.content, 'html.parser')
     links_list = soup.find_all('a')
     
+    scraped_data = []
+    
     for link in links_list:
         if 'href' in link.attrs:
-            web_links = str(link.attrs['href'])
+            web_link = str(link.attrs['href'])
             df = pd.read_csv('FetchLink\phishing_dataset.csv')
-            status1 = df.loc[df['url'] == web_links]['status']
-            print(web_links)
-            if web_links in df['url'].unique():
-                print("yes")
-                z=df.loc[df['url'] == web_links]
-                d=z['status']
-                print(d)
-                with open("output.txt","w")as f:
-                    sys.stdout = f 
-                    print(web_links,d,file=f)
-                    sys.stdout = sys.__stdout__
+            if web_link in df['url'].unique():
+                status = df.loc[df['url'] == web_link]['status'].values[0]
             else:
-                print("no")
-                z=df.loc[df['url'] == web_links]
-                d=z['status']
-                print(d)
-                with open("output.txt","w")as f:
-                    sys.stdout = f 
-                    print(web_links,d,file=f)
-                    sys.stdout = sys.__stdout__
+                status = 'Not in phishing dataset'
+
+            scraped_data.append({'url': web_link, 'status': status})
+
+    return jsonify(scraped_data) 
             
             
 
-
-
-    return 'Scraped links printed to console'
-    
-if __name__ == '__main__':
-    app.run()
+if __name__ == '__m_':
+    app.run(host='127.0.0.1', port=5000)

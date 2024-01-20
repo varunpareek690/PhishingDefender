@@ -13,7 +13,8 @@
   },
   "permissions": [
     "activeTab",
-    "http://localhost:5000/"
+    "http://localhost:5000/",
+    "storage" 
   ],
   "background": {
     "scripts": ["background.js"],
