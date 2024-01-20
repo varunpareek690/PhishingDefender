@@ -7,7 +7,12 @@ import subprocess
 
 app = Flask(__name__)
 
+def index():
+    return render_template('index.html')
+
 @app.route('/scrape', methods=['POST'])
+
+
 def scrape():
     current_url = request.form['currentUrl']
     page = requests.get(current_url)
