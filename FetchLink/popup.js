@@ -1,59 +1,47 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Get the button element
     var button = document.getElementById('myButton');
 
+    // Add a click event listener to the button
     button.addEventListener('click', function () {
+        // Get the current tab
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            // Get the URL of the current tab
             var currentUrl = tabs[0].url;
 
+            // Make an AJAX request to your Python Flask server
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'http://localhost:5000/scrape');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    // Parse the JSON response
                     var scrapedData = JSON.parse(xhr.responseText);
 
-                    // Additional: Send scrapedData to the machine learning model
-                    sendToMLModel(scrapedData);
+                    // Create a new HTML document
+                    var newDoc = document.implementation.createHTMLDocument('Scraped Links');
+
+                    // Add a header to the new document
+                    var header = newDoc.createElement('h1');
+                    header.textContent = 'Scraped Links:';
+                    newDoc.body.appendChild(header);
+
+                    // Add each scraped link to the new document
+                    scrapedData.forEach(function (data) {
+                        var linkElement = newDoc.createElement('p');    
+                        linkElement.textContent = data.url + ': ' + data.status;
+                        newDoc.body.appendChild(linkElement);
+                    });
+
+                    // Convert the new document to HTML string
+                    var htmlString = new XMLSerializer().serializeToString(newDoc);
+
+                    // Open a new tab with the HTML content
+                    var newTab = window.open();
+                    newTab.document.write(htmlString);
                 }
             };
             xhr.send('currentUrl=' + currentUrl);
         });
     });
-
-    // Additional function to send data to the machine learning model
-    function sendToMLModel(scrapedData) {
-        // Assume mlModelEndpoint is the endpoint for your machine learning model
-        var mlModelEndpoint = 'http://127.0.0.1:5002';
-
-        var xhrML = new XMLHttpRequest();
-        xhrML.open('POST', mlModelEndpoint);
-        xhrML.setRequestHeader('Content-Type', 'application/json');
-        xhrML.onreadystatechange = function () {
-            if (xhrML.readyState === XMLHttpRequest.DONE && xhrML.status === 200) {
-                var mlResult = JSON.parse(xhrML.responseText);
-                updateNewDocWithMLResult(scrapedData, mlResult);
-            }
-        };
-        xhrML.send(JSON.stringify(scrapedData));
-    }
-
-    // Additional function to update newDoc with machine learning result
-    function updateNewDocWithMLResult(scrapedData, mlResult) {
-        var newDoc = document.implementation.createHTMLDocument('Scraped Links');
-
-        var header = newDoc.createElement('h1');
-        header.textContent = 'Scraped Links:';
-        newDoc.body.appendChild(header);
-
-        scrapedData.forEach(function (data, index) {
-            var linkElement = newDoc.createElement('p');
-            linkElement.textContent = data.url + ': ' + data.status + ' | Phishing Score: ' + mlResult[index].phishing_score.toFixed(2) + '%';
-            newDoc.body.appendChild(linkElement);
-        });
-
-        var htmlString = new XMLSerializer().serializeToString(newDoc);
-
-        var newTab = window.open();
-        newTab.document.write(htmlString);
-    }
 });
