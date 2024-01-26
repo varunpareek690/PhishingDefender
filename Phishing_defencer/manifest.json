@@ -1,0 +1,23 @@
+{
+  "name": "My Extension",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "A simple Chrome extension",
+  "icons": {
+    "16": "icon12.jpg",
+    "48": "icon12.jpg",
+    "128": "icon12.jpg"
+  },
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "http://localhost:5000/",
+    "storage" 
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  }
+}
