@@ -3,45 +3,47 @@ Phishing Defender is a Python-based project that aims to protect users from phis
 
 
 ## Features
-Web scraping using Beautiful Soup to extract links from a webpage.
-Integration with a machine learning model to predict the phishing or legitimate status of each link.
-Output display of links along with their corresponding status on a separate page.
+- Web scraping using Beautiful Soup to extract links from a webpage.  
+- Integration with a machine learning model to predict the phishing or legitimate status of each link.  
+- Output display of links along with their corresponding status on a separate window.
 
 ## Requirements
 Make sure you have the following dependencies installed:
 
-- Python 3.x
+- Python 
 - Beautiful Soup
 - Flask (for the web application)
 - Machine learning model dependencies (ensure you follow the model setup instructions)
+- Any Code Editor (VS Code, Pycharm)
 
 
 ## Installation
-Clone the repository:
-bash
-Copy code
+1. Clone the repository:
+``` bash
 git clone https://github.com/varunpareek690/phishing-defender.git
 cd phishing-defender
-Install dependencies:
-bash
-Copy code
+```
+2. Install dependencies:
+```bash
 pip install -r requirements.txt
-Set up the machine learning model:
+```
+3. Follow the instructions in the model/README.md to train or set up the machine learning model.
 
-Follow the instructions in the model/README.md to train or set up the machine learning model.
-Run the application:
 
-bash
-Copy code
-python app.py
-Visit http://localhost:5000 in your web browser to use Phishing Defender.
+__Visit http://localhost:5000 in your web browser to use Phishing Defender.__
 
 ## Usage
-Enter the URL of the webpage you want to analyze on the main page.
-Click on the "Submit" button.
-The links extracted from the webpage and their status (phishing or legitimate) will be displayed on a new page.
-Model Training
-If you want to train your own machine learning model or update the existing one, refer to the instructions in the model/README.md file.
+1. Visit any website or the demo website created in the "HACK2.0" folder.
+2. Go to your browser settings, navigate to "Extensions," turn on developer options, and load the unpacked extension from the extension directory, __Phishing defencer__ in the project
+3. Run this command in the terminal
+  ```python
+python popup.py
+```
+4. The flask server will go live on http://localhost:5000
+5. Click the extension icon and then click the "Scrape Links" button.
+
+## Demo
+
 
 ## Collaborators 
 Paras Goyal  
